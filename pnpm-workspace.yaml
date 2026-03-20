@@ -1,0 +1,6 @@
+packages:
+  - 'frontend'
+  - '素材抓取/content-marketing/frontend'
+  - 'KV生成/frontend'
+  - '表情包/frontend'
+  - 'shared/frontend'

@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+.venv/
+venv/
+*.egg-info/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build output
+dist/
+build/
+*.tsbuildinfo
+.vite/
+
+# Runtime data
+data/
+logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+
+# Fonts (too large)
+*.ttc
+*.ttf

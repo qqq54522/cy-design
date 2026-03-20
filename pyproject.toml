@@ -1,0 +1,21 @@
+[project]
+name = "lingqiao-creative-hub"
+version = "1.0.0"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+    "platform_api/tests",
+    "KV生成/backend/tests",
+    "素材抓取/content-marketing/backend/tests",
+    "表情包/backend/tests",
+]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+asyncio_mode = "auto"
+addopts = "-v --tb=short"
+
+[tool.ruff]
+extend = "ruff.toml"

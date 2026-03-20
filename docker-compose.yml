@@ -1,0 +1,66 @@
+services:
+  # ── 后端服务 ──────────────────────────────────────────────
+
+  platform-api:
+    build:
+      context: ./platform_api
+    env_file: .env
+    restart: unless-stopped
+
+  content-backend:
+    build:
+      context: "./素材抓取/content-marketing/backend"
+    env_file:
+      - .env
+      - "./素材抓取/content-marketing/backend/.env"
+    restart: unless-stopped
+
+  kv-backend:
+    build:
+      context: "./KV生成/backend"
+    env_file:
+      - .env
+      - "./KV生成/backend/.env"
+    restart: unless-stopped
+
+  emoji-backend:
+    build:
+      context: "./表情包/backend"
+    env_file:
+      - .env
+      - "./表情包/backend/.env"
+    restart: unless-stopped
+
+  # ── 前端服务 ──────────────────────────────────────────────
+
+  hub-frontend:
+    build:
+      context: ./frontend
+    env_file: .env
+    depends_on:
+      - platform-api
+    restart: unless-stopped
+
+  content-frontend:
+    build:
+      context: "./素材抓取/content-marketing/frontend"
+    env_file: .env
+    depends_on:
+      - content-backend
+    restart: unless-stopped
+
+  kv-frontend:
+    build:
+      context: "./KV生成/frontend"
+    env_file: .env
+    depends_on:
+      - kv-backend
+    restart: unless-stopped
+
+  emoji-frontend:
+    build:
+      context: "./表情包/frontend"
+    env_file: .env
+    depends_on:
+      - emoji-backend
+    restart: unless-stopped

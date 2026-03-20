@@ -1,0 +1,113 @@
+{
+  "modules": [
+    {
+      "key": "content",
+      "name": "素材抓取",
+      "description": "热点选题、文案生成与视觉物料生成",
+      "route": "/content",
+      "defaultPath": "/hot",
+      "nav": [
+        { "path": "/hot", "label": "热搜中心" },
+        { "path": "/create", "label": "创作工作台" },
+        { "path": "/history", "label": "历史记录" },
+        { "path": "/settings", "label": "设置" }
+      ],
+      "frontend": {
+        "port": 5174,
+        "origin": "http://localhost:5174",
+        "cwd": "素材抓取/content-marketing/frontend",
+        "startCommand": "pnpm dev"
+      },
+      "backend": {
+        "port": 8001,
+        "origin": "http://localhost:8001",
+        "cwd": "素材抓取/content-marketing/backend",
+        "healthPath": "/health",
+        "startCommand": "python -m uvicorn app.main:app --host 0.0.0.0 --port 8001 --reload",
+        "uvicornModule": "app.main:app"
+      },
+      "indexing": {
+        "dataDirs": ["素材抓取/content-marketing/data/projects"],
+        "retentionDays": 30
+      },
+      "embed": {
+        "enabled": true
+      }
+    },
+    {
+      "key": "kv",
+      "name": "KV 生成",
+      "description": "活动主视觉生成、编辑与物料延展",
+      "route": "/kv",
+      "defaultPath": "/kv",
+      "nav": [
+        { "path": "/kv", "label": "首页" },
+        { "path": "/kv/create", "label": "新建活动" },
+        { "path": "/kv/history", "label": "我的活动" }
+      ],
+      "frontend": {
+        "port": 5175,
+        "origin": "http://localhost:5175",
+        "cwd": "KV生成/frontend",
+        "startCommand": "pnpm dev"
+      },
+      "backend": {
+        "port": 8002,
+        "origin": "http://localhost:8002",
+        "cwd": "KV生成/backend",
+        "healthPath": "/health",
+        "startCommand": "python -m uvicorn app.main:app --host 0.0.0.0 --port 8002 --reload",
+        "uvicornModule": "app.main:app"
+      },
+      "indexing": {
+        "dataDirs": ["KV生成/data/projects"],
+        "retentionDays": 30
+      },
+      "embed": {
+        "enabled": true
+      }
+    },
+    {
+      "key": "emoji",
+      "name": "表情包",
+      "description": "角色分析、模板库与表情包批量生成",
+      "route": "/emoji",
+      "defaultPath": "/upload",
+      "nav": [
+        { "path": "/upload", "label": "表情包制作" },
+        { "path": "/templates", "label": "模板库" },
+        { "path": "/history", "label": "历史记录" }
+      ],
+      "frontend": {
+        "port": 5176,
+        "origin": "http://localhost:5176",
+        "cwd": "表情包/frontend",
+        "startCommand": "pnpm dev"
+      },
+      "backend": {
+        "port": 8003,
+        "origin": "http://localhost:8003",
+        "cwd": "表情包/backend",
+        "healthPath": "/health",
+        "startCommand": "python -m uvicorn app.main:app --host 0.0.0.0 --port 8003 --reload",
+        "uvicornModule": "app.main:app"
+      },
+      "indexing": {
+        "dataDirs": [
+          "表情包/data/uploads",
+          "表情包/data/results"
+        ],
+        "retentionDays": 7
+      },
+      "embed": {
+        "enabled": true
+      }
+    }
+  ],
+  "platform": {
+    "port": 8100,
+    "origin": "http://localhost:8100",
+    "shellPort": 5180,
+    "shellOrigin": "http://localhost:5180"
+  }
+}

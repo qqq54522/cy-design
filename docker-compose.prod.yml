@@ -1,0 +1,52 @@
+services:
+  # ── 后端：多 worker，无热重载 ──────────────────────────
+
+  platform-api:
+    build:
+      target: prod
+    ports:
+      - "8100:8100"
+
+  content-backend:
+    build:
+      target: prod
+    ports:
+      - "8001:8001"
+
+  kv-backend:
+    build:
+      target: prod
+    ports:
+      - "8002:8002"
+
+  emoji-backend:
+    build:
+      target: prod
+    ports:
+      - "8003:8003"
+
+  # ── 前端：Nginx 托管静态文件 ───────────────────────────
+
+  hub-frontend:
+    build:
+      target: prod
+    ports:
+      - "5180:80"
+
+  content-frontend:
+    build:
+      target: prod
+    ports:
+      - "5174:80"
+
+  kv-frontend:
+    build:
+      target: prod
+    ports:
+      - "5175:80"
+
+  emoji-frontend:
+    build:
+      target: prod
+    ports:
+      - "5176:80"

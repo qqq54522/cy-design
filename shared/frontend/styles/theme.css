@@ -1,0 +1,85 @@
+/**
+ * 灵桥 Creative Hub — 统一主题变量
+ *
+ * 各模块在自己的 app.css 中 @import 此文件即可获得基础主题。
+ * 如需覆盖个别变量，在 @import 之后的 @theme 块中重新定义即可。
+ *
+ * 使用方式：
+ *   @import "tailwindcss";
+ *   @import "@shared/styles/theme.css";
+ */
+
+@theme {
+  /* ── 品牌色 ── */
+  --color-primary: #111827;
+  --color-primary-hover: #374151;
+  --color-primary-light: #F3F4F6;
+  --color-accent: #8B5CF6;
+  --color-accent-light: #F5F3FF;
+
+  /* ── 表面 ── */
+  --color-surface: #FFFFFF;
+  --color-surface-alt: #F7F8FA;
+  --color-panel: #111111;
+  --color-panel-soft: #1C1C1C;
+
+  /* ── 边框 ── */
+  --color-border: #E5E7EB;
+  --color-border-hover: #D1D5DB;
+
+  /* ── 文本 ── */
+  --color-text: #111827;
+  --color-text-secondary: #6B7280;
+  --color-text-tertiary: #9CA3AF;
+
+  /* ── 语义色 ── */
+  --color-success: #16A34A;
+  --color-success-light: #F0FDF4;
+  --color-warning: #D97706;
+  --color-warning-light: #FFFBEB;
+  --color-error: #DC2626;
+  --color-error-light: #FEF2F2;
+  --color-info: #3B82F6;
+
+  /* ── 圆角 ── */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+}
+
+/* ── 基础样式 ── */
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Noto Sans SC", sans-serif;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+*:focus-visible {
+  outline: 1.5px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+::selection {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+/* ── 工具类 ── */
+
+.hide-scrollbar::-webkit-scrollbar { display: none }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none }
+
+/* ── 动画 ── */
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
