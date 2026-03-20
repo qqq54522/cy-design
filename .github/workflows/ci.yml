@@ -29,16 +29,16 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Lint
-        run: pnpm lint
+        run: pnpm --filter lingqiao-hub-frontend lint
 
       - name: Type check
-        run: pnpm typecheck
+        run: pnpm --filter lingqiao-hub-frontend typecheck
 
       - name: Test
-        run: pnpm test
+        run: pnpm --filter lingqiao-hub-frontend test
 
       - name: Build
-        run: pnpm build
+        run: pnpm --filter lingqiao-hub-frontend build
 
   # ─── 后端检查 ───────────────────────────────────────────
   backend:

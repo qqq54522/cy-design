@@ -86,7 +86,7 @@ async def _with_statuses(client: httpx.AsyncClient) -> list[ModuleInfo]:
 
 @app.get("/health")
 async def health():
-    return {"status": "ok"}
+    return {"status": "healthy"}
 
 
 @app.get("/api/platform/modules")

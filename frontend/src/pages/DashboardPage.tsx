@@ -23,7 +23,7 @@ export default function DashboardPage() {
   const [services, setServices] = useState<ServiceStatus[]>([])
   const [error, setError] = useState<string | null>(null)
   const [globalLoading, setGlobalLoading] = useState(false)
-  const pollRef = useRef<ReturnType<typeof setInterval>>()
+  const pollRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined)
 
   const refresh = useCallback(async () => {
     try {
@@ -82,7 +82,9 @@ export default function DashboardPage() {
           {globalLoading ? (
             <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-white border-t-transparent" />
           ) : (
-            <svg width="12" height="12" viewBox="0 0 10 10" fill="currentColor"><polygon points="1,0 10,5 1,10" /></svg>
+            <svg width="12" height="12" viewBox="0 0 10 10" fill="currentColor">
+              <polygon points="1,0 10,5 1,10" />
+            </svg>
           )}
           一键启动全部
         </button>
@@ -92,7 +94,9 @@ export default function DashboardPage() {
             disabled={globalLoading}
             className="inline-flex items-center gap-2 rounded-full border border-error/30 bg-error/5 px-5 py-2.5 text-sm font-medium text-error transition hover:bg-error/10 disabled:opacity-50"
           >
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><rect x="1" y="1" width="8" height="8" rx="1" /></svg>
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor">
+              <rect x="1" y="1" width="8" height="8" rx="1" />
+            </svg>
             全部停止
           </button>
         )}
@@ -102,16 +106,24 @@ export default function DashboardPage() {
       <section className="grid gap-5 xl:grid-cols-[minmax(0,1.7fr)_340px]">
         <div className="rounded-[24px] border border-border bg-surface p-5 shadow-sm">
           <div className="rounded-[18px] bg-gradient-to-r from-[#020617] to-[#1d4ed8] p-5 text-white">
-            <p className="text-[11px] uppercase tracking-[0.2em] text-white/65">Creative Platform</p>
+            <p className="text-[11px] uppercase tracking-[0.2em] text-white/65">
+              Creative Platform
+            </p>
             <h2 className="mt-3 text-[28px] font-semibold">一站式创意生产平台</h2>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-white/75">
               先把三个成熟项目纳入一个统一入口中，再通过平台项目中心、服务编排和配置中心逐步抽公共能力。
             </p>
             <div className="mt-5 flex gap-3">
-              <Link className="rounded-full bg-white px-4 py-2 text-sm font-medium text-panel no-underline" to="/projects">
+              <Link
+                className="rounded-full bg-white px-4 py-2 text-sm font-medium text-panel no-underline"
+                to="/projects"
+              >
                 打开项目中心
               </Link>
-              <Link className="rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white no-underline" to="/settings">
+              <Link
+                className="rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white no-underline"
+                to="/settings"
+              >
                 平台设置
               </Link>
             </div>
@@ -130,7 +142,10 @@ export default function DashboardPage() {
               const svc = svcMap[module.key]
               const running = svc ? svc.backend_running || svc.frontend_running : false
               return (
-                <div key={module.key} className="flex items-center justify-between rounded-2xl border border-border px-4 py-3">
+                <div
+                  key={module.key}
+                  className="flex items-center justify-between rounded-2xl border border-border px-4 py-3"
+                >
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
                       <p className="text-sm font-medium text-text">{module.name}</p>
@@ -152,7 +167,9 @@ export default function DashboardPage() {
                 </div>
               )
             })}
-            {modules.length === 0 && <p className="text-sm text-text-secondary">正在读取模块状态...</p>}
+            {modules.length === 0 && (
+              <p className="text-sm text-text-secondary">正在读取模块状态...</p>
+            )}
           </div>
         </div>
       </section>
@@ -193,7 +210,9 @@ export default function DashboardPage() {
         <div className="mb-4 flex items-center justify-between">
           <div>
             <p className="text-lg font-semibold text-text">最近项目</p>
-            <p className="mt-1 text-sm text-text-secondary">这里已经开始按统一索引汇总三个模块的历史数据。</p>
+            <p className="mt-1 text-sm text-text-secondary">
+              这里已经开始按统一索引汇总三个模块的历史数据。
+            </p>
           </div>
           <Link to="/projects" className="text-sm text-primary no-underline">
             查看全部
@@ -218,7 +237,9 @@ export default function DashboardPage() {
               <span className="text-xs text-text-secondary">{project.status}</span>
             </a>
           ))}
-          {!summary?.recent_projects.length && <p className="text-sm text-text-secondary">暂无项目记录。</p>}
+          {!summary?.recent_projects.length && (
+            <p className="text-sm text-text-secondary">暂无项目记录。</p>
+          )}
         </div>
       </section>
     </div>
