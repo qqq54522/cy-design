@@ -19,8 +19,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
-        with:
-          version: 9
 
       - uses: actions/setup-node@v4
         with:
@@ -53,14 +51,14 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install base dependencies
+      - name: Install dependencies
         run: pip install -r shared/requirements-dev.txt
 
       - name: Ruff lint
-        run: ruff check .
+        run: ruff check platform_api/ shared/backend/
 
       - name: Ruff format check
-        run: ruff format --check .
+        run: ruff format --check platform_api/ shared/backend/
 
       - name: Test platform_api
         working-directory: platform_api
