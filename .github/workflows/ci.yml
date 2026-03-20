@@ -74,6 +74,8 @@ jobs:
     needs: [frontend, backend]
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true
 
       - name: Create .env from example
         run: |
