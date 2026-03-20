@@ -1,9 +1,9 @@
 from pydantic import BaseModel, Field
 
-
 # ---------------------------------------------------------------------------
 # Sub-models for enriched module info
 # ---------------------------------------------------------------------------
+
 
 class ModuleNavItem(BaseModel):
     path: str
@@ -39,6 +39,7 @@ class ModuleEmbedInfo(BaseModel):
 # Core module model — enriched with nav / frontend / backend details
 # ---------------------------------------------------------------------------
 
+
 class ModuleInfo(BaseModel):
     key: str
     name: str
@@ -67,6 +68,7 @@ class ModuleInfo(BaseModel):
 # ---------------------------------------------------------------------------
 # Other models (unchanged)
 # ---------------------------------------------------------------------------
+
 
 class ProjectIndexItem(BaseModel):
     id: str

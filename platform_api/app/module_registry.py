@@ -11,11 +11,11 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-
 # ---------------------------------------------------------------------------
 # Data classes – intentionally plain (not Pydantic) so the registry stays
 # import-lightweight and decoupled from the API response models.
 # ---------------------------------------------------------------------------
+
 
 @dataclass(frozen=True)
 class NavItem:
@@ -77,6 +77,7 @@ class PlatformInfo:
 # ---------------------------------------------------------------------------
 # Loader
 # ---------------------------------------------------------------------------
+
 
 def _config_path() -> Path:
     """Return the absolute path to ``config/modules.json``."""

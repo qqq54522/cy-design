@@ -37,18 +37,22 @@ def _build_service_defs() -> list[ServiceDef]:
     """Derive SERVICE_DEFS from the module registry instead of hard-coding."""
     defs: list[ServiceDef] = []
     for m in _REGISTRY_MODULES:
-        defs.append(ServiceDef(
-            key=m.key,
-            role="backend",
-            cwd=m.backend.cwd,
-            port=m.backend.port,
-            uvicorn_module=m.backend.uvicorn_module,
-        ))
-        defs.append(ServiceDef(
-            key=m.key,
-            role="frontend",
-            cwd=m.frontend.cwd,
-        ))
+        defs.append(
+            ServiceDef(
+                key=m.key,
+                role="backend",
+                cwd=m.backend.cwd,
+                port=m.backend.port,
+                uvicorn_module=m.backend.uvicorn_module,
+            )
+        )
+        defs.append(
+            ServiceDef(
+                key=m.key,
+                role="frontend",
+                cwd=m.frontend.cwd,
+            )
+        )
     return defs
 
 
@@ -95,10 +99,14 @@ class ProcessManager:
         cwd = settings.workspace_dir / svc.cwd
         python = _find_venv_python() or sys.executable
         cmd = [
-            python, "-m", "uvicorn",
+            python,
+            "-m",
+            "uvicorn",
             svc.uvicorn_module,
-            "--host", "0.0.0.0",
-            "--port", str(svc.port),
+            "--host",
+            "0.0.0.0",
+            "--port",
+            str(svc.port),
             "--reload",
         ]
         return subprocess.Popen(cmd, cwd=str(cwd), **_popen_kwargs())

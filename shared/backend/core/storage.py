@@ -10,8 +10,8 @@ import json
 import re
 import shutil
 import uuid
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable
 
 import aiofiles
 import structlog
@@ -43,7 +43,7 @@ def new_id(length: int = 12) -> str:
 
 async def read_json(path: Path) -> dict:
     """异步读取 JSON 文件并返回 dict。"""
-    async with aiofiles.open(path, "r", encoding="utf-8") as f:
+    async with aiofiles.open(path, encoding="utf-8") as f:
         content = await f.read()
     return json.loads(content)
 
@@ -129,7 +129,9 @@ class BaseProjectStorage:
         async with self._get_lock(entity_id):
             return await read_json(path)
 
-    async def update_meta(self, entity_id: str, updater: Callable[[dict], dict]) -> dict:
+    async def update_meta(
+        self, entity_id: str, updater: Callable[[dict], dict]
+    ) -> dict:
         """读-改-写（带锁），updater 接收当前 dict 返回新 dict。"""
         async with self._get_lock(entity_id):
             path = self.meta_path(entity_id)
@@ -145,7 +147,9 @@ class BaseProjectStorage:
         if not self.base_dir.exists():
             return []
         items = []
-        for d in sorted(self.base_dir.iterdir(), key=lambda p: p.stat().st_mtime, reverse=True):
+        for d in sorted(
+            self.base_dir.iterdir(), key=lambda p: p.stat().st_mtime, reverse=True
+        ):
             if not d.is_dir():
                 continue
             meta_file = d / self.meta_filename
@@ -167,7 +171,9 @@ class BaseProjectStorage:
             self._locks.pop(entity_id, None)
             logger.info("entity_deleted", id=entity_id)
 
-    async def save_file(self, entity_id: str, subdir: str, filename: str, data: bytes) -> str:
+    async def save_file(
+        self, entity_id: str, subdir: str, filename: str, data: bytes
+    ) -> str:
         """保存二进制文件到实体子目录，返回相对路径。"""
         validate_path_component(subdir)
         validate_path_component(filename)

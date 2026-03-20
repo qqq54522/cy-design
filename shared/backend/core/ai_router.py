@@ -17,7 +17,8 @@ import hashlib
 import io
 import json
 import re
-from typing import AsyncIterator, Protocol, runtime_checkable
+from collections.abc import AsyncIterator
+from typing import Protocol, runtime_checkable
 
 import structlog
 
@@ -81,9 +82,7 @@ def extract_image_from_openai_response(data: dict) -> bytes | None:
                     return base64.b64decode(block["data"])
 
         if isinstance(content, str):
-            md_match = re.search(
-                r"data:image/[^;]+;base64,([A-Za-z0-9+/=]+)", content
-            )
+            md_match = re.search(r"data:image/[^;]+;base64,([A-Za-z0-9+/=]+)", content)
             if md_match:
                 return base64.b64decode(md_match.group(1))
 
@@ -112,7 +111,7 @@ def mock_image_bytes(prompt: str, size: str = "1024x1024") -> bytes:
 
     try:
         font = ImageFont.truetype("arial.ttf", 24)
-    except (OSError, IOError):
+    except OSError:
         font = ImageFont.load_default()
 
     label = "MOCK IMAGE"
@@ -123,7 +122,7 @@ def mock_image_bytes(prompt: str, size: str = "1024x1024") -> bytes:
     short_prompt = prompt[:60] + "..." if len(prompt) > 60 else prompt
     try:
         small_font = ImageFont.truetype("arial.ttf", 14)
-    except (OSError, IOError):
+    except OSError:
         small_font = ImageFont.load_default()
     draw.text((40, h / 2 + 10), short_prompt, fill=(255, 255, 255), font=small_font)
 
@@ -136,9 +135,7 @@ def mock_llm_response(messages: list[dict]) -> str:
     """Mock 模式下返回的示例文本"""
     last_msg = messages[-1].get("content", "") if messages else ""
     if isinstance(last_msg, list):
-        last_msg = " ".join(
-            p.get("text", "") for p in last_msg if isinstance(p, dict)
-        )
+        last_msg = " ".join(p.get("text", "") for p in last_msg if isinstance(p, dict))
     if "分析" in last_msg or "analysis" in last_msg.lower():
         return json.dumps(
             {
@@ -283,8 +280,12 @@ class AIRouter:
         for model_key in order:
             try:
                 content = await self.call_llm(
-                    http_client, model_key, messages, temperature,
-                    response_format=response_format, timeout=timeout,
+                    http_client,
+                    model_key,
+                    messages,
+                    temperature,
+                    response_format=response_format,
+                    timeout=timeout,
                 )
                 return content, model_key
             except Exception as e:
@@ -378,7 +379,10 @@ class AIRouter:
             return await self._call_jimeng(http_client, cfg, prompt, size, timeout)
         elif model_type in ("openai_compatible_image", "openai"):
             return await self._call_openai_image(
-                http_client, cfg, prompt, size,
+                http_client,
+                cfg,
+                prompt,
+                size,
                 reference_url=reference_url,
                 reference_images=reference_images,
                 reference_guidance=reference_guidance,
@@ -413,8 +417,14 @@ class AIRouter:
         for model_key in order:
             try:
                 img_bytes = await self.call_image_model(
-                    http_client, model_key, prompt, size,
-                    reference_url, reference_images, reference_guidance, timeout,
+                    http_client,
+                    model_key,
+                    prompt,
+                    size,
+                    reference_url,
+                    reference_images,
+                    reference_guidance,
+                    timeout,
                 )
                 return img_bytes, model_key
             except Exception as e:
@@ -526,7 +536,9 @@ class AIRouter:
         if "url" in item:
             img_resp = await http_client.get(item["url"], timeout=60)
             img_resp.raise_for_status()
-            logger.info("jimeng_success", size=seedream_size, bytes=len(img_resp.content))
+            logger.info(
+                "jimeng_success", size=seedream_size, bytes=len(img_resp.content)
+            )
             return img_resp.content
         elif "b64_json" in item:
             return base64.b64decode(item["b64_json"])
@@ -549,7 +561,9 @@ class AIRouter:
         effective_refs = reference_images or []
 
         if not effective_refs and reference_url:
-            effective_refs = [{"url": reference_url, "kind": "style", "strength": "medium"}]
+            effective_refs = [
+                {"url": reference_url, "kind": "style", "strength": "medium"}
+            ]
 
         for ref in effective_refs[:3]:
             url = ref.get("url")
@@ -564,7 +578,10 @@ class AIRouter:
                 "Do not copy exact objects, text, layout, logos, or trademarks."
             )
             content_parts.append(
-                {"type": "text", "text": f"{guidance}\n\nTarget size: {size}\n\nPrompt:\n{prompt}"}
+                {
+                    "type": "text",
+                    "text": f"{guidance}\n\nTarget size: {size}\n\nPrompt:\n{prompt}",
+                }
             )
         else:
             content_parts.append({"type": "text", "text": prompt})
