@@ -1,6 +1,7 @@
-import { ApiError } from '@lingqiao/shared/api'
+import pathlib
 
-import type { DashboardSummary, ModuleInfo, ProjectIndexItem, RecentLogsPayload, ServiceStatus, SettingsPayload } from '@/types/platform'
+content = """import type { DashboardSummary, ModuleInfo, ProjectIndexItem, RecentLogsPayload, ServiceStatus, SettingsPayload } from '@/types/platform'
+import { ApiError } from '@lingqiao/shared/api'
 
 export { ApiError }
 
@@ -17,7 +18,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(path, init)
   if (!response.ok) {
     const payload = (await response.json().catch(() => ({}))) as ApiErrorPayload
-    const message = payload.error?.message || payload.detail || '请求失败'
+    const message = payload.error?.message || payload.detail || '\u8bf7\u6c42\u5931\u8d25'
     const code = payload.error?.code || payload.code || 'UNKNOWN'
     throw new ApiError(response.status, message, code)
   }
@@ -66,3 +67,7 @@ export async function startModule(key: string): Promise<void> {
 export async function stopModule(key: string): Promise<void> {
   await request(`/api/platform/services/${key}/stop`, { method: 'POST' })
 }
+"""
+
+pathlib.Path("frontend/src/lib/api.ts").write_text(content, encoding="utf-8")
+print("File written successfully")

@@ -8,10 +8,10 @@
 
 export interface ApiResponse<T> {
   data: T
-  error?: ApiError
+  error?: ApiErrorInfo
 }
 
-export interface ApiError {
+export interface ApiErrorInfo {
   code: string
   message: string
   details?: Record<string, unknown>

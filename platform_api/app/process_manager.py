@@ -1,12 +1,12 @@
 from __future__ import annotations
 
+import contextlib
 import logging
 import os
 import signal
 import subprocess
 import sys
 from dataclasses import dataclass, field
-from pathlib import Path
 from typing import Literal
 
 from .config import settings
@@ -155,10 +155,8 @@ class ProcessManager:
                 os.killpg(rs.process.pid, signal.SIGTERM)
             rs.process.wait(timeout=5)
         except Exception:
-            try:
+            with contextlib.suppress(Exception):
                 rs.process.kill()
-            except Exception:
-                pass
         logger.info("stopped %s  pid=%d", sid, rs.pid)
         return True
 

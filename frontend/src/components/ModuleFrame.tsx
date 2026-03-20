@@ -35,15 +35,6 @@ export default function ModuleFrame({ module, subPath, onSubPathChange }: Props)
     })
   }, [onSubPathChange])
 
-  const _navigateModule = useCallback(
-    (targetPath: string) => {
-      const iframe = iframeRef.current
-      if (!iframe) return
-      postToModule(iframe, { type: 'host:navigate', path: targetPath })
-    },
-    [],
-  )
-
   return (
     <iframe
       ref={iframeRef}

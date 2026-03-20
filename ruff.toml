@@ -11,7 +11,29 @@ select = [
     "RUF",  # ruff-specific rules
 ]
 ignore = [
-    "E501",   # line too long (handled by formatter)
+    "E501",    # line too long (handled by formatter)
+    "RUF001",  # ambiguous unicode in string (Chinese punctuation)
+    "RUF002",  # ambiguous unicode in docstring (Chinese punctuation)
+    "RUF003",  # ambiguous unicode in comment (Chinese punctuation)
+]
+allowed-confusables = [
+    "\uff0c",
+    "\u3002",
+    "\uff1a",
+    "\uff1b",
+    "\uff08",
+    "\uff09",
+    "\uff01",
+    "\uff1f",
+    "\u3001",
+    "\u201c",
+    "\u201d",
+    "\u2018",
+    "\u2019",
+    "\u3010",
+    "\u3011",
+    "\u2014",
+    "\u2013",
 ]
 
 [lint.isort]

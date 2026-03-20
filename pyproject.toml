@@ -17,5 +17,3 @@ python_functions = ["test_*"]
 asyncio_mode = "auto"
 addopts = "-v --tb=short"
 
-[tool.ruff]
-extend = "ruff.toml"
