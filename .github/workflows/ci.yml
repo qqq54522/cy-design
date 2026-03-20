@@ -74,12 +74,13 @@ jobs:
     needs: [frontend, backend]
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: true
 
       - name: Create .env from example
         run: |
           cp .env.example .env
+          mkdir -p "素材抓取/content-marketing/backend"
+          mkdir -p "KV生成/backend"
+          mkdir -p "表情包/backend"
           touch "素材抓取/content-marketing/backend/.env"
           touch "KV生成/backend/.env"
           touch "表情包/backend/.env"
