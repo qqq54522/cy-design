@@ -1,18 +1,11 @@
 /**
- * 统一 Vite 配置工厂
- *
- * 使用方式：
- *   import { createViteConfig } from '../../shared/frontend/vite.config.base'
- *   export default createViteConfig({
- *     port: 5175,
- *     proxyTarget: 'http://localhost:8002',
- *     sharedPath: '../../shared/frontend',
- *   })
+ * Shared Vite config factory.
  */
-import { defineConfig, type UserConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
 import { resolve } from 'path'
+
+import tailwindcss from '@tailwindcss/vite'
+import react from '@vitejs/plugin-react'
+import { defineConfig, type UserConfig } from 'vite'
 
 export interface ViteConfigOptions {
   port: number
@@ -24,12 +17,20 @@ export interface ViteConfigOptions {
 }
 
 export function createViteConfig(options: ViteConfigOptions) {
-  const { port, proxyTarget, sharedPath, extraProxyRoutes = {}, enableTest = true, extraConfig = {} } = options
+  const {
+    port,
+    proxyTarget,
+    sharedPath,
+    extraProxyRoutes = {},
+    enableTest = true,
+    extraConfig = {},
+  } = options
   const apiTarget = process.env.API_TARGET || proxyTarget
 
   const proxyEntries: Record<string, object> = {
     '/api': { target: apiTarget, changeOrigin: true, ws: true },
   }
+
   for (const [route, target] of Object.entries(extraProxyRoutes)) {
     proxyEntries[route] = { target: target || apiTarget, changeOrigin: true }
   }
@@ -47,14 +48,16 @@ export function createViteConfig(options: ViteConfigOptions) {
       port,
       proxy: proxyEntries,
     },
-    ...(enableTest ? {
-      test: {
-        globals: true,
-        environment: 'jsdom',
-        setupFiles: ['./src/test/setup.ts'],
-        include: ['src/**/*.{test,spec}.{ts,tsx}'],
-      },
-    } : {}),
+    ...(enableTest
+      ? {
+          test: {
+            globals: true,
+            environment: 'jsdom',
+            setupFiles: ['./src/test/setup.ts'],
+            include: ['src/**/*.{test,spec}.{ts,tsx}'],
+          },
+        }
+      : {}),
     ...extraConfig,
   })
 }

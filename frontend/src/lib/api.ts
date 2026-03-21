@@ -1,4 +1,15 @@
-import type { DashboardSummary, ModuleInfo, ProjectIndexItem, RecentLogsPayload, ServiceStatus, SettingsPayload } from '@/types/platform'
+import { ApiError } from '@lingqiao/shared/api'
+
+import type {
+  DashboardSummary,
+  ModuleInfo,
+  ProjectIndexItem,
+  RecentLogsPayload,
+  ServiceStatus,
+  SettingsPayload,
+} from '@/types/platform'
+
+export { ApiError }
 
 type ApiErrorPayload = {
   detail?: string
@@ -9,20 +20,13 @@ type ApiErrorPayload = {
   }
 }
 
-export class ApiError extends Error {
-  constructor(public readonly code: string, message: string) {
-    super(message)
-    this.name = 'ApiError'
-  }
-}
-
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(path, init)
   if (!response.ok) {
     const payload = (await response.json().catch(() => ({}))) as ApiErrorPayload
     const message = payload.error?.message || payload.detail || '请求失败'
     const code = payload.error?.code || payload.code || 'UNKNOWN'
-    throw new ApiError(code, message)
+    throw new ApiError(response.status, message, code)
   }
   return response.json() as Promise<T>
 }
@@ -33,7 +37,9 @@ export async function fetchModules(): Promise<ModuleInfo[]> {
 }
 
 export async function fetchProjects(): Promise<ProjectIndexItem[]> {
-  const response = await request<{ data: { projects: ProjectIndexItem[] } }>('/api/platform/projects')
+  const response = await request<{ data: { projects: ProjectIndexItem[] } }>(
+    '/api/platform/projects',
+  )
   return response.data.projects
 }
 

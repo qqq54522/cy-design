@@ -1,17 +1,29 @@
 /**
- * 共享代码库入口
- * 
- * 使用方式：
- * import { createApiClient, ApiError } from '@lingqiao/shared/api'
- * import { Button, Toast } from '@lingqiao/shared/components'
- * import { useDebounce } from '@lingqiao/shared/hooks'
- * import { formatDateTime } from '@lingqiao/shared/utils'
- * import type { ApiResponse } from '@lingqiao/shared/types'
+ * Shared package entry.
  */
 
-export * from './api'
-export * from './components'
-export * from './hooks'
-export * from './utils'
-export * from './types'
-export * from './constants'
+export { createApiClient, ApiError } from './api/index'
+export type { ApiClient, ApiClientOptions } from './api/index'
+
+export {
+  ConfirmDialog,
+  ModuleLayout,
+  ModuleSidebar,
+  PlatformBridge,
+  Spinner,
+} from './components/index'
+
+export { useDebounce, useLocalStorage } from './hooks/index'
+
+export * from './utils/index'
+
+export type {
+  ApiErrorInfo,
+  ApiResponse,
+  BaseEntity,
+  PaginatedResponse,
+  PaginationParams,
+  Status,
+} from './types/index'
+
+export { API_CONFIG, DEFAULT_PAGE_SIZE, POLL_INTERVAL, ROUTES } from './constants/index'

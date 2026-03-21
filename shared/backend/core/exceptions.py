@@ -46,7 +46,9 @@ class ValidationError(AppError):
     """请求参数校验失败（422）"""
 
     def __init__(self, message: str = "参数校验失败", details: dict | None = None):
-        super().__init__(message, code="VALIDATION_ERROR", status_code=422, details=details)
+        super().__init__(
+            message, code="VALIDATION_ERROR", status_code=422, details=details
+        )
 
 
 class StorageError(AppError):

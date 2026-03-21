@@ -20,6 +20,6 @@
 
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInImports": true
+    "forceConsistentCasingInFileNames": true
   }
 }

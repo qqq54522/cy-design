@@ -1,6 +1,6 @@
+import logging
 from collections import Counter
 from contextlib import asynccontextmanager
-import logging
 
 import httpx
 from fastapi import FastAPI
@@ -66,7 +66,10 @@ async def log_requests(request, call_next):
 @app.exception_handler(Exception)
 async def handle_unexpected_error(_request, exc: Exception):
     logger.exception("platform_api_error: %s", exc)
-    return JSONResponse(status_code=500, content={"error": {"code": "INTERNAL_ERROR", "message": "平台服务异常"}})
+    return JSONResponse(
+        status_code=500,
+        content={"error": {"code": "INTERNAL_ERROR", "message": "平台服务异常"}},
+    )
 
 
 async def _with_statuses(client: httpx.AsyncClient) -> list[ModuleInfo]:
@@ -157,7 +160,12 @@ async def stop_all_services():
 @app.post("/api/platform/services/{key}/start")
 async def start_module_services(key: str):
     if key not in MODULE_KEYS:
-        return JSONResponse(status_code=404, content={"error": {"code": "MODULE_NOT_FOUND", "message": f"模块 {key} 不存在"}})
+        return JSONResponse(
+            status_code=404,
+            content={
+                "error": {"code": "MODULE_NOT_FOUND", "message": f"模块 {key} 不存在"}
+            },
+        )
     results = process_manager.start_module(key)
     logger.info("start_module %s: launched %d services", key, len(results))
     return {"message": f"已启动 {key} 模块", "count": len(results)}
@@ -166,7 +174,12 @@ async def start_module_services(key: str):
 @app.post("/api/platform/services/{key}/stop")
 async def stop_module_services(key: str):
     if key not in MODULE_KEYS:
-        return JSONResponse(status_code=404, content={"error": {"code": "MODULE_NOT_FOUND", "message": f"模块 {key} 不存在"}})
+        return JSONResponse(
+            status_code=404,
+            content={
+                "error": {"code": "MODULE_NOT_FOUND", "message": f"模块 {key} 不存在"}
+            },
+        )
     stopped = process_manager.stop_module(key)
     logger.info("stop_module %s: stopped %d services", key, stopped)
     return {"message": f"已停止 {key} 模块", "count": stopped}

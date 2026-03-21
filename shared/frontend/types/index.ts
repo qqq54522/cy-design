@@ -1,25 +1,13 @@
-/**
- * 共享类型定义
- */
-
-// ============================================
-// API 响应格式
-// ============================================
-
-export interface ApiResponse<T> {
-  data: T
-  error?: ApiError
-}
-
-export interface ApiError {
+export interface ApiErrorInfo {
   code: string
   message: string
   details?: Record<string, unknown>
 }
 
-// ============================================
-// 分页相关
-// ============================================
+export interface ApiResponse<T> {
+  data: T
+  error?: ApiErrorInfo
+}
 
 export interface PaginationParams {
   page: number
@@ -32,10 +20,6 @@ export interface PaginatedResponse<T> {
   page: number
   pageSize: number
 }
-
-// ============================================
-// 通用类型
-// ============================================
 
 export type Status = 'idle' | 'loading' | 'success' | 'error'
 

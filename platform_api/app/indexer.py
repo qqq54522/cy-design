@@ -12,10 +12,10 @@ from .models import (
 )
 from .module_registry import MODULES as _REGISTRY_MODULES
 
-
 # ---------------------------------------------------------------------------
 # Build the Pydantic ModuleInfo list from the single-source registry
 # ---------------------------------------------------------------------------
+
 
 def _to_module_info(entry) -> ModuleInfo:
     """Convert a registry ModuleEntry dataclass into a Pydantic ModuleInfo."""
@@ -97,7 +97,9 @@ def _emoji_detail_url(module: ModuleInfo, task: dict) -> str:
     return f"{base}/history"
 
 
-def index_content_projects(workspace_dir: Path, module: ModuleInfo) -> list[ProjectIndexItem]:
+def index_content_projects(
+    workspace_dir: Path, module: ModuleInfo
+) -> list[ProjectIndexItem]:
     base_dir = workspace_dir / "素材抓取" / "content-marketing" / "data" / "projects"
     items: list[ProjectIndexItem] = []
     if not base_dir.exists():
@@ -125,7 +127,9 @@ def index_content_projects(workspace_dir: Path, module: ModuleInfo) -> list[Proj
     return items
 
 
-def index_kv_projects(workspace_dir: Path, module: ModuleInfo) -> list[ProjectIndexItem]:
+def index_kv_projects(
+    workspace_dir: Path, module: ModuleInfo
+) -> list[ProjectIndexItem]:
     base_dir = workspace_dir / "KV生成" / "data" / "projects"
     items: list[ProjectIndexItem] = []
     if not base_dir.exists():
@@ -157,7 +161,9 @@ def index_kv_projects(workspace_dir: Path, module: ModuleInfo) -> list[ProjectIn
     return items
 
 
-def index_emoji_tasks(workspace_dir: Path, module: ModuleInfo) -> list[ProjectIndexItem]:
+def index_emoji_tasks(
+    workspace_dir: Path, module: ModuleInfo
+) -> list[ProjectIndexItem]:
     base_dir = workspace_dir / "表情包" / "data" / "uploads"
     items: list[ProjectIndexItem] = []
     if not base_dir.exists():

@@ -6,12 +6,12 @@
   "description": "灵桥 Creative Hub - 统一创意平台",
   "scripts": {
     "dev": "pnpm -r --parallel dev",
-    "build": "pnpm -r build",
-    "typecheck": "pnpm -r typecheck",
-    "lint": "pnpm -r lint",
+    "build": "node scripts/run-frontend-task.mjs build",
+    "typecheck": "node scripts/run-frontend-task.mjs typecheck",
+    "lint": "node scripts/run-frontend-task.mjs lint",
     "lint-all": "eslint .",
-    "clean": "pnpm -r clean && rimraf node_modules",
-    "test": "pnpm -r test",
+    "clean": "node scripts/run-frontend-task.mjs clean && rimraf node_modules",
+    "test": "node scripts/run-frontend-task.mjs test",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,css}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,css}\"",
     "prepare": "husky"

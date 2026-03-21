@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "types": ["node", "vite/client", "vitest/globals"]
+  },
+  "include": [
+    "index.ts",
+    "api/**/*.ts",
+    "components/**/*.ts",
+    "components/**/*.tsx",
+    "hooks/**/*.ts",
+    "hooks/**/*.tsx",
+    "utils/**/*.ts",
+    "types/**/*.ts",
+    "constants/**/*.ts",
+    "vite.config.base.ts",
+    "vite-env.d.ts"
+  ],
+  "exclude": ["node_modules", "dist"]
+}

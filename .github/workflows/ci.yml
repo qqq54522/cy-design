@@ -1,4 +1,4 @@
-name: CI
+﻿name: CI
 
 on:
   push:
@@ -11,9 +11,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # ─── 前端检查 ───────────────────────────────────────────
+  # 鈹€鈹€鈹€ 鍓嶇妫€鏌?鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
   frontend:
-    name: Frontend (lint + typecheck + test + build)
+    name: Frontend (workspace lint + typecheck + test + build)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -40,7 +40,7 @@ jobs:
       - name: Build
         run: pnpm build
 
-  # ─── 后端检查 ───────────────────────────────────────────
+  # 鈹€鈹€鈹€ 鍚庣妫€鏌?鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
   backend:
     name: Backend (ruff + pytest)
     runs-on: ubuntu-latest
@@ -49,16 +49,16 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: '3.12'
 
       - name: Install dependencies
         run: pip install -r shared/requirements-dev.txt
 
       - name: Ruff lint
-        run: ruff check platform_api/ shared/backend/
+        run: ruff check platform_api/ shared/backend/ "KV鐢熸垚/backend/" "绱犳潗鎶撳彇/content-marketing/backend/" "琛ㄦ儏鍖?backend/"
 
       - name: Ruff format check
-        run: ruff format --check platform_api/ shared/backend/
+        run: ruff format --check platform_api/ shared/backend/ "KV鐢熸垚/backend/" "绱犳潗鎶撳彇/content-marketing/backend/" "琛ㄦ儏鍖?backend/"
 
       - name: Test platform_api
         working-directory: platform_api
@@ -66,7 +66,25 @@ jobs:
           pip install -r requirements.txt
           pytest tests/ -v
 
-  # ─── Docker 构建验证（仅验证能否构建，不推送） ──────────
+      - name: Test KV generator backend
+        working-directory: 'KV鐢熸垚/backend'
+        run: |
+          pip install -r requirements.txt
+          pytest tests/ -v
+
+      - name: Test HotContent backend
+        working-directory: '绱犳潗鎶撳彇/content-marketing/backend'
+        run: |
+          pip install -r requirements.txt
+          pytest tests/ -v
+
+      - name: Test Emoji generator backend
+        working-directory: '琛ㄦ儏鍖?backend'
+        run: |
+          pip install -r requirements.txt
+          pytest tests/ -v
+
+  # 鈹€鈹€鈹€ Docker 鏋勫缓楠岃瘉锛堜粎楠岃瘉鑳藉惁鏋勫缓锛屼笉鎺ㄩ€侊級 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
   docker:
     name: Docker build check
     runs-on: ubuntu-latest
@@ -74,6 +92,16 @@ jobs:
     needs: [frontend, backend]
     steps:
       - uses: actions/checkout@v4
+
+      - name: Create .env from example
+        run: |
+          cp .env.example .env
+          mkdir -p "绱犳潗鎶撳彇/content-marketing/backend"
+          mkdir -p "KV鐢熸垚/backend"
+          mkdir -p "琛ㄦ儏鍖?backend"
+          touch "绱犳潗鎶撳彇/content-marketing/backend/.env"
+          touch "KV鐢熸垚/backend/.env"
+          touch "琛ㄦ儏鍖?backend/.env"
 
       - name: Verify docker-compose config
         run: docker compose config --quiet
