@@ -1,33 +1,30 @@
 [lint]
-select = [
-    'E',
-    'W',
-    'F',
-    'I',
-    'N',
-    'UP',
-    'B',
-    'SIM',
-    'RUF',
-]
-ignore = [
-    'E501',
-    'RUF001',
-    'RUF002',
-    'RUF003',
-]
+select = ["E", "W", "F", "I", "N", "UP", "B", "SIM", "RUF"]
+ignore = ["E501", "RUF001", "RUF002", "RUF003"]
 allowed-confusables = [
-    '，', '。', '：', '；',
-    '（', '）', '！', '？',
-    '、', '“', '”', '‘',
-    '’', '【', '】', '—',
-    '–',
+    "\uff0c",
+    "\u3002",
+    "\uff1a",
+    "\uff1b",
+    "\uff08",
+    "\uff09",
+    "\uff01",
+    "\uff1f",
+    "\u3001",
+    "\u201c",
+    "\u201d",
+    "\u2018",
+    "\u2019",
+    "\u3010",
+    "\u3011",
+    "\u2014",
+    "\u2013",
 ]
 
 [lint.isort]
-known-first-party = ['app', 'shared']
+known-first-party = ["app", "shared"]
 
 [format]
-quote-style = 'double'
-indent-style = 'space'
-line-ending = 'auto'
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"

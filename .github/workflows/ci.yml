@@ -29,16 +29,16 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Lint
-        run: pnpm lint
+        run: pnpm --filter lingqiao-hub-frontend lint
 
       - name: Type check
-        run: pnpm typecheck
+        run: pnpm --filter lingqiao-hub-frontend typecheck
 
       - name: Test
-        run: pnpm test
+        run: pnpm --filter lingqiao-hub-frontend test
 
       - name: Build
-        run: pnpm build
+        run: pnpm --filter lingqiao-hub-frontend build
 
   # 鈹€鈹€鈹€ 鍚庣妫€鏌?鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
   backend:
@@ -96,12 +96,21 @@ jobs:
       - name: Create .env from example
         run: |
           cp .env.example .env
+<<<<<<< HEAD
           mkdir -p "绱犳潗鎶撳彇/content-marketing/backend"
           mkdir -p "KV鐢熸垚/backend"
           mkdir -p "琛ㄦ儏鍖?backend"
           touch "绱犳潗鎶撳彇/content-marketing/backend/.env"
           touch "KV鐢熸垚/backend/.env"
           touch "琛ㄦ儏鍖?backend/.env"
+=======
+          mkdir -p "素材抓取/content-marketing/backend"
+          mkdir -p "KV生成/backend"
+          mkdir -p "表情包/backend"
+          touch "素材抓取/content-marketing/backend/.env"
+          touch "KV生成/backend/.env"
+          touch "表情包/backend/.env"
+>>>>>>> origin/main
 
       - name: Verify docker-compose config
         run: docker compose config --quiet

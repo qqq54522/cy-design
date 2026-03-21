@@ -7,5 +7,6 @@
       "@shared/*": ["../shared/frontend/*"]
     }
   },
-  "include": ["src", "../shared/frontend"]
+  "include": ["src", "../shared/frontend"],
+  "exclude": ["../shared/frontend/vite.config.base.ts"]
 }
