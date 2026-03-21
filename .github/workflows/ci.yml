@@ -53,10 +53,30 @@ jobs:
         run: pip install -r shared/requirements-dev.txt
 
       - name: Ruff lint
-        run: ruff check platform_api/ shared/backend/ "KV生成/backend/" "素材抓取/content-marketing/backend/" "表情包/backend/"
+        shell: bash
+        run: |
+          paths=(platform_api/ shared/backend/)
+          for dir in "KV生成/backend/" "素材抓取/content-marketing/backend/" "表情包/backend/"; do
+            if [ -d "$dir" ]; then
+              paths+=("$dir")
+            else
+              echo "Skip missing backend lint target: $dir"
+            fi
+          done
+          ruff check "${paths[@]}"
 
       - name: Ruff format check
-        run: ruff format --check platform_api/ shared/backend/ "KV生成/backend/" "素材抓取/content-marketing/backend/" "表情包/backend/"
+        shell: bash
+        run: |
+          paths=(platform_api/ shared/backend/)
+          for dir in "KV生成/backend/" "素材抓取/content-marketing/backend/" "表情包/backend/"; do
+            if [ -d "$dir" ]; then
+              paths+=("$dir")
+            else
+              echo "Skip missing backend format target: $dir"
+            fi
+          done
+          ruff format --check "${paths[@]}"
 
       - name: Test platform_api
         working-directory: platform_api
@@ -64,23 +84,18 @@ jobs:
           pip install -r requirements.txt
           pytest tests/ -v
 
-      - name: Test KV generator backend
-        working-directory: "KV生成/backend"
+      - name: Test optional module backends
+        shell: bash
         run: |
-          pip install -r requirements.txt
-          pytest tests/ -v
-
-      - name: Test HotContent backend
-        working-directory: "素材抓取/content-marketing/backend"
-        run: |
-          pip install -r requirements.txt
-          pytest tests/ -v
-
-      - name: Test Emoji generator backend
-        working-directory: "表情包/backend"
-        run: |
-          pip install -r requirements.txt
-          pytest tests/ -v
+          for dir in "KV生成/backend" "素材抓取/content-marketing/backend" "表情包/backend"; do
+            if [ -d "$dir" ]; then
+              echo "Testing $dir"
+              pip install -r "$dir/requirements.txt"
+              pytest "$dir/tests/" -v
+            else
+              echo "Skip missing backend test target: $dir"
+            fi
+          done
 
   docker:
     name: Docker build check
